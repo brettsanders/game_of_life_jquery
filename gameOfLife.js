@@ -66,6 +66,26 @@ function prepareNextGeneration(){
     for (var x = 0; x < dimension; x++) {
       var cell = getCell(x, y);
       var neighbours = getLiveNeighbourCount(x, y);
+
+      // add 'isalive' attribute to store state for rendering
+      // defaults to false, implicitly implements rules 1 and 3
+      // kills live cells as if by under-population or overcrowding
+      cell.attr('isalive', 'false');
+
+      // alive branch
+      if (cell.attr('class') === 'alive') {
+        // rule 2: live cells with 2 or 3 neighbours live on
+        if (neighbours === 2 || neighbours === 3) {
+          cell.attr('isalive', 'true');
+        }
+      }
+      // dead branch
+      // rule 4: any dead cell with exactly 3 live neighbours
+      // becomes a live cell, as if by reproduction
+      else if (neighbours === 3) {
+        cell.attr('isalive', 'true');
+      }
+
     }
   }
 }
