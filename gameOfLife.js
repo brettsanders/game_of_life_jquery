@@ -10,6 +10,7 @@ $(document).ready(function(){
   // cache the cells
   cells = table.find('td');
   placeRandomCells();
+  playGame();
 });
 
 function initializeGame(){
@@ -58,6 +59,8 @@ function playGame(){
 function playGeneration(){
   prepareNextGeneration();
   renderNextGeneration();
+
+  setTimeout('playGeneration()', 200)
 }
 
 function prepareNextGeneration(){
@@ -90,6 +93,15 @@ function prepareNextGeneration(){
 }
 
 function renderNextGeneration(){
+  // .each allows iteration on any jQuery array
+  cells.each(function(){
+    var cell = $(this);
+    cell.removeClass('alive');
+    if (cell.attr('isalive') === 'true') {
+      cell.addClass('alive');
+      cell.removeAttr('isalive');
+    };
+  });
 }
 
 function getLiveNeighbourCount(x, y){
