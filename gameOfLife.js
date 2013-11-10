@@ -4,6 +4,14 @@ var chanceOfLiveCell = 0.5;
 var table;
 var cells;
 
+$(document).ready(function(){
+  table = $('#main');
+  initializeGame();
+  // cache the cells
+  cells = table.find('td');
+  placeRandomCells();
+});
+
 function initializeGame(){
   // create table of dimension x dimension
   var trHtml = [];
@@ -32,7 +40,7 @@ function placeRandomCells(){
   }
 }
 
-function getCell(x, y) {
+function getCell(x, y){
   // board in theory endless, make sure to come back
   // don't actually need these 4 lines to work
   if (x >= dimension) { x = 0; }
@@ -44,10 +52,26 @@ function getCell(x, y) {
   return $(cells[y * dimension + x]);
 }
 
-$(document).ready(function(){
-  table = $('#main');
-  initializeGame();
-  // cache the cells
-  cells = table.find('td');
-  placeRandomCells();
-});
+function playGame(){
+  playGeneration();
+}
+
+function playGeneration(){
+  prepareNextGeneration();
+  renderNextGeneration();
+}
+
+function prepareNextGeneration(){
+  for (var y = 0; y < dimension; y++) {
+    for (var x = 0; x < dimension; x++) {
+      var cell = getCell(x, y);
+      var neighbours = getLiveNeighbourCount(x, y);
+    }
+  }
+}
+
+function renderNextGeneration(){
+
+}
+
+
