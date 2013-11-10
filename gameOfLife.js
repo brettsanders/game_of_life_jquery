@@ -41,8 +41,7 @@ function placeRandomCells(){
 }
 
 function getCell(x, y){
-  // board in theory endless, make sure to come back
-  // don't actually need these 4 lines to work
+  // handles boundries
   if (x >= dimension) { x = 0; }
   if (y >= dimension) { y = 0; }
   if (x < 0) { x = dimension - 1; }
@@ -73,7 +72,7 @@ function prepareNextGeneration(){
       cell.attr('isalive', 'false');
 
       // alive branch
-      if (cell.attr('class') === 'alive') {
+      if (isCellAlive(x, y)) {
         // rule 2: live cells with 2 or 3 neighbours live on
         if (neighbours === 2 || neighbours === 3) {
           cell.attr('isalive', 'true');
@@ -91,7 +90,24 @@ function prepareNextGeneration(){
 }
 
 function renderNextGeneration(){
+}
 
+function getLiveNeighbourCount(x, y){
+  var count = 0;
+  // boundaries handles by getCell()
+  if (isCellAlive(x-1, y-1)) count ++; // NW
+  if (isCellAlive(x, y-1)) count ++;   // N
+  if (isCellAlive(x+1, y-1)) count ++; // NE
+  if (isCellAlive(x-1, y)) count ++;   // W
+  if (isCellAlive(x+1, y)) count ++;   // E
+  if (isCellAlive(x-1, y+1)) count ++; // SW
+  if (isCellAlive(x, y+1)) count ++;   // S
+  if (isCellAlive(x+1, y+1)) count ++; // SE
+  return count;
+}
+
+function isCellAlive(x, y) {
+  return getCell(x, y).attr('class') === 'alive';
 }
 
 
